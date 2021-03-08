@@ -3,6 +3,9 @@
  * Mountain-Project-Project
  * Author: Brennan Jackson
  * Created March 7, 2021
+ * 
+ * index.js
+ *  Project index file. Serves as the controller for our endpoints
  */
 
 const express = require('express')
