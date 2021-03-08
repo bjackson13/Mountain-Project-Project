@@ -1,0 +1,22 @@
+{
+  "name": "mountain-server",
+  "version": "1.0.0",
+  "description": "Mountain-Project-Project server",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bjackson13/Mountain-Project-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bjackson13/Mountain-Project-Project/issues"
+  },
+  "homepage": "https://github.com/bjackson13/Mountain-Project-Project#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
