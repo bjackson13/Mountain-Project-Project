@@ -25,6 +25,38 @@ log4js.configure({
   
 const logger = log4js.getLogger('Controller')
 
+app.get('/search', function(req, res) {
+    //call query generator bypassing search terms and filters
+
+    //pass query object and options to repository
+
+    //return results to user
+})
+
+app.get('/document/:id', function(req, res) {
+    //call query generator by passing id
+
+    //pass query object and options to repository
+
+    //return results to user
+})
+
+app.get('/image/:id', function(req, res) {
+    //call query generator by passing id
+
+    //pass query object and options to repository
+
+    //return results to user    
+})
+
+app.post('/tag/:id', function(req, res) {
+    //call query generator by passing id and new tags
+
+    //pass query object and options to repository
+
+    //return success/failure to user
+})
+
 
 app.listen(port, () => {
     logger.info(`Application listening on localhost:${port}`)
