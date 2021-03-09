@@ -11,7 +11,7 @@ require('dotenv').config() //read in .env file
 const log4js = require('log4js') 
 const express = require('express')
 const app = express()
-const port = 8080
+const port = process.env.PORT
 
 /*Initialize logger using log4js */
 log4js.configure({
