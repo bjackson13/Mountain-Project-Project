@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/bjackson13/Mountain-Project-Project#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "log4js": "^6.3.0",
+    "mongodb": "^3.6.4"
   }
 }
