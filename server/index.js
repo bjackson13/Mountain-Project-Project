@@ -27,7 +27,7 @@ const logger = log4js.getLogger('Controller')
 
 app.get('/search', function(req, res) {
     //call query generator bypassing search terms and filters
-
+    
     //pass query object and options to repository
 
     //return results to user
