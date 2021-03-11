@@ -1,5 +1,5 @@
 # Mountain-Project-Project Server
-NodeJs server with express framework, handles requests for findingroutes, accessing pictures, and adding tags to routes.
+NodeJs server with express framework, handles requests for finding routes, accessing pictures, and adding tags to routes.
 
 ## Prereqs
 The following need to be set in a `.env` file before running the project:  
