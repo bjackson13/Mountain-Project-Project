@@ -25,7 +25,15 @@ log4js.configure({
   
 const logger = log4js.getLogger('Controller')
 
-app.get('/search', function(req, res) {
+app.get('/search/term', function(req, res) {
+    //call query generator bypassing search terms and filters
+
+    //pass query object and options to repository
+
+    //return results to user
+})
+
+app.get('/search/location', function(req, res) {
     //call query generator bypassing search terms and filters
 
     //pass query object and options to repository
@@ -49,7 +57,7 @@ app.get('/image/:id', function(req, res) {
     //return results to user    
 })
 
-app.post('/tag/:id', function(req, res) {
+app.post('/comment/:id', function(req, res) {
     //call query generator by passing id and new tags
 
     //pass query object and options to repository
