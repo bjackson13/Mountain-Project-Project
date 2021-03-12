@@ -11,13 +11,15 @@ const log4js = require('log4js')
 const user = process.env.DBUSER
 const password = process.env.DBPASS
 const dbName = process.env.DBNAME
-const connectionString = `mongodb://${user}:${password}@dbName:27017`
+const env = process.env.ENV
+const connectionString = env === 'local' ? `mongodb://localhost:27017` : `mongodb://${user}:${password}@localhost:27017`
 
 //db conn options
 var options = {
     numberOfRetries: 5,
     poolSize: 5,
-    connectTimeoutMS: 1000
+    connectTimeoutMS: 1000,
+    useUnifiedTopology: true
 };
 
 var MongoPool = function () {

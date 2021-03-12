@@ -12,6 +12,8 @@ const log4js = require('log4js')
 const express = require('express')
 const app = express()
 const port = process.env.PORT
+const Repository = require('./lib/repository.js')
+const repo = Repository(); 
 
 /*Initialize logger using log4js */
 log4js.configure({
@@ -26,11 +28,14 @@ log4js.configure({
 const logger = log4js.getLogger('Controller')
 
 app.get('/search/term', function(req, res) {
-    //call query generator bypassing search terms and filters
-
-    //pass query object and options to repository
-
-    //return results to user
+    let terms = req.query.searchterms
+    console.log(terms)
+    repo.searchTerms(terms).then((results) => {
+        res.jsonp(results)
+    }).catch((rejection) =>{ 
+        logger.warn(rejection)
+        res.status(500).send("Error: Something went wrong!")
+    })
 })
 
 app.get('/search/location', function(req, res) {

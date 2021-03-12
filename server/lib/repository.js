@@ -43,7 +43,8 @@
                         {
                             _id: 0,
                             loc: 0
-                        },
+                        }
+                    ).toArray(
                         (err, res) => {
                             if(err) {
                                 reject(err)
@@ -65,7 +66,7 @@
      * @function searchDocumentsByLocation search the database for documents by location
      * @param {searchLocation} array of coordinates to query the database for
      */
-     function searchDocumentsByTerm(searchLocation) {
+     function searchDocumentsByLocation(searchLocation) {
 
     }
 
@@ -95,11 +96,11 @@
     }
 
     return {
-        searchTerms: function() {
-            return searchDocumentsByTerm()
+        searchTerms: function(terms) {
+            return searchDocumentsByTerm(terms)
         },
-        searchLocation: function() {
-            return searchDocumentsByLocation()
+        searchLocation: function(location) {
+            return searchDocumentsByLocation(location)
         },
         getDocument: function() {
             return getDocument() 
