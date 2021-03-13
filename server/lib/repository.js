@@ -122,7 +122,36 @@
      * @param {id} int id of document to retireve
      */
     function getDocument(id) {
-
+        logger.info(`Query made for document ID: ${id}`)
+        id = parseInt(id) // ID needs to be an int before querying
+        return new Promise((resolve, reject) => {
+            try {
+                mongo.connect((db) => {
+                    db.collection("Routes").findOne(
+                        {
+                            id: id       
+                        }, 
+                        {
+                            projection: {
+                                _id: 0,
+                                loc: 0
+                            }
+                        },
+                        (err, res) => {
+                            if(err) {
+                                reject(err)
+                            }
+                            logger.info("Query successful")
+                            resolve(res)
+                        }
+                    )
+                })
+            }
+            catch(err) {
+                logger.warn("Error thrown in getDocument: " + err)
+                reject(err)
+            }
+        })
     }
 
     /**
@@ -149,8 +178,8 @@
         searchLocation: function(long, lat, maxDistance) {
             return searchDocumentsByLocation(long, lat, maxDistance)
         },
-        getDocument: function() {
-            return getDocument() 
+        getDocument: function(id) {
+            return getDocument(id) 
         },
         getImage: function() {
             return getImage()

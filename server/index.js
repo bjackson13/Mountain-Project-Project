@@ -52,11 +52,18 @@ app.get('/search/location', function(req, res) {
 })
 
 app.get('/document/:id', function(req, res) {
-    //call query generator by passing id
-
-    //pass query object and options to repository
-
-    //return results to user
+    logger.info(`Search made for id: ${req.params.id}`)
+    repo.getDocument(req.params.id).then((results) => {
+        if(results === null) {
+            res.status(404).send("No route found")
+        }
+        else {
+            res.jsonp(results)
+        }
+    }).catch((rejection) =>{ 
+        logger.warn(rejection)
+        res.status(500).send("Error: Something went wrong!")
+    })
 })
 
 app.get('/image/:id', function(req, res) {
