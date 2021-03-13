@@ -35,11 +35,19 @@
         return new Promise((resolve, reject) => {
             try {
                 mongo.connect((db) => {
-                    let regex = new RegExp(searchTerms, "i") //create regex expression with search terms
+                    let regex = new RegExp(`\\b${searchTerms}.*\\b`, "i") //create regex expression with search terms
                     db.collection("Routes").find(
                         {
-                            desc: regex
-                        },
+                        $or:
+                            [
+                                { desc: regex },
+                                { rating: regex },
+                                { route: regex },
+                                { route_type: regex },
+                            ]
+                                
+                        }
+                    ).project(
                         {
                             _id: 0,
                             loc: 0

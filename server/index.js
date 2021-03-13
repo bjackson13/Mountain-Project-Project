@@ -29,7 +29,7 @@ const logger = log4js.getLogger('Controller')
 
 app.get('/search/term', function(req, res) {
     let terms = req.query.searchterms
-    console.log(terms)
+    logger.info(`Search made with terms: ${terms}`)
     repo.searchTerms(terms).then((results) => {
         res.jsonp(results)
     }).catch((rejection) =>{ 
