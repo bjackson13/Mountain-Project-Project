@@ -9,6 +9,7 @@
  */
  const log4js = require('log4js')
  const MongoPool = require('./mongopool.js') 
+ const GridFSBucket = require('mongodb').GridFSBucket
 
  var Repository = function() {
 
@@ -159,8 +160,39 @@
      * @param {query} string  terms or title to query on images
      * @param {id} int id of image to retireve
      */
-    function searchImages(query, id) {
+    function searchImages(query) {
+        logger.info(`Query made for image: ${query}`)
+        return new Promise((resolve, reject) => {
+            try {
+                mongo.connect((db) => {
+                    let regex = new RegExp(`^${query}\.(png|jpg|jpeg)$`, "i") 
+                    db.collection("fs.files").findOne(
+                        {
+                            filename: regex
+                                  
+                        },
+                        (err, res) => {
+                            if(err) {
+                                reject(err)
+                            }
 
+                            logger.info("Query successful")
+                            if(res === null) {
+                                resolve(res)
+                            }
+                            else {
+                                gridFS = new GridFSBucket(db)
+                                resolve([gridFS.openDownloadStreamByName(res.filename), res])
+                            }
+                        }
+                    )
+                })
+            }
+            catch(err) {
+                logger.warn("Error thrown in getDocument: " + err)
+                reject(err)
+            }
+        })
     }
 
     /**
@@ -214,8 +246,8 @@
         getDocument: function(id) {
             return getDocument(id) 
         },
-        searchImages: function(query, id) {
-            return searchImages(query, id)
+        searchImages: function(query) {
+            return searchImages(query)
         },
         addComment: function(id, text, username) {
             return addComment(id, text, username)

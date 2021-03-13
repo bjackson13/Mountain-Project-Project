@@ -13,7 +13,8 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT
 const Repository = require('./lib/repository.js')
-const repo = Repository(); 
+const repo = Repository()
+const fs = require('fs')
 
 /*Initialize logger using log4js */
 log4js.configure({
@@ -28,7 +29,7 @@ log4js.configure({
 const logger = log4js.getLogger('Controller')
 
 app.get('/search/term', function(req, res) {
-    let terms = req.query.searchterms
+    let terms = req.query.searchTerms
     logger.info(`Search made with terms: ${terms}`)
     repo.searchTerms(terms).then((results) => {
         res.jsonp(results)
@@ -66,10 +67,22 @@ app.get('/document/:id', function(req, res) {
     })
 })
 
-app.get('/image/', function(req, res) {
-    //pass query object and options to repository
-
-    //return results to user    
+app.get('/image', function(req, res) {
+    let filename =req.query.name
+    logger.info(`Search made for image named: ${filename}`)
+    repo.searchImages(filename).then((results) => {
+        if(results === null) {
+            res.status(404).send("No image found")
+        }
+        else{
+            gridStream = results[0]
+            res.set('Content-Type', results[1].contentType);
+            return gridStream.pipe(res);
+        }        
+    }).catch((rejection) =>{ 
+        logger.warn(rejection)
+        res.status(500).send("Error: Something went wrong!")
+    }) 
 })
 
 app.post('/comment/:id', function(req, res) {
