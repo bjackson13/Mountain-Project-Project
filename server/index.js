@@ -66,18 +66,14 @@ app.get('/document/:id', function(req, res) {
     })
 })
 
-app.get('/image/:id', function(req, res) {
-    //call query generator by passing id
-
+app.get('/image/', function(req, res) {
     //pass query object and options to repository
 
     //return results to user    
 })
 
 app.post('/comment/:id', function(req, res) {
-    //call query generator by passing id and new tags
-
-    //pass query object and options to repository
+    //pass post data to repository
 
     //return success/failure to user
 })

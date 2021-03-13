@@ -155,20 +155,53 @@
     }
 
     /**
-     * @function getImage retrieve single image from the databse
+     * @function searchImages retrieve images from the databse
+     * @param {query} string  terms or title to query on images
      * @param {id} int id of image to retireve
      */
-    function getImage(id) {
+    function searchImages(query, id) {
 
     }
 
     /**
      * @function searchDocumentsByLocation retrieve single image from the databse
      * @param {id} int id of comment to add comment to
-     * @param {text} text of comment to add to document
+     * @param {text} string of comment to add to document
+     * @param {username} string username to attribute comment to
      */
-    function addComment(id, text) {
-
+    function addComment(id, text, username) {
+        logger.info(`Comment added to document with ID: ${id}`)
+        id = parseInt(id) // ID needs to be an int before querying
+        return new Promise((resolve, reject) => {
+            try {
+                mongo.connect((db) => {
+                    db.collection("Routes").updateOne(
+                        {
+                            id: id       
+                        },
+                        {
+                            $push: {
+                                comments: {
+                                    comment: text,
+                                    username: username
+                                }
+                            }
+                        },
+                        (err, res) => {
+                            if(err) {
+                                reject(err)
+                            }
+                            logger.info("update successful")
+                            resolve(res)
+                        }
+                    )
+                })
+            }
+            catch(err) {
+                logger.warn("Error thrown in addComment: " + err)
+                reject(err)
+            }
+        })
     }
 
     return {
@@ -181,11 +214,11 @@
         getDocument: function(id) {
             return getDocument(id) 
         },
-        getImage: function() {
-            return getImage()
+        searchImages: function(query, id) {
+            return searchImages(query, id)
         },
-        addComment: function() {
-            return addComment()
+        addComment: function(id, text, username) {
+            return addComment(id, text, username)
         }
     }
  }
