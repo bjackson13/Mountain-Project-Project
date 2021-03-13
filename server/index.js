@@ -14,7 +14,6 @@ const app = express()
 const port = process.env.PORT
 const Repository = require('./lib/repository.js')
 const repo = Repository()
-const fs = require('fs')
 
 /*Initialize logger using log4js */
 log4js.configure({
@@ -86,9 +85,7 @@ app.get('/image', function(req, res) {
 })
 
 app.post('/comment/:id', function(req, res) {
-    //pass post data to repository
-
-    //return success/failure to user
+    
 })
 
 
