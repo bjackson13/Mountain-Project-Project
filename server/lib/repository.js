@@ -72,10 +72,49 @@
 
     /**
      * @function searchDocumentsByLocation search the database for documents by location
-     * @param {searchLocation} array of coordinates to query the database for
+     * @param {long} long longitude coordinates to query the database for
+     * @param {lat} long latitude coordinates to query the database for
+     * @param {maxDistance} int kilometers to search
      */
-     function searchDocumentsByLocation(searchLocation) {
-
+     function searchDocumentsByLocation(long, lat, maxDistance) {
+        logger.info(`Query made against serach location: Long ${long} Lat ${lat} Distance ${maxDistance}`)
+        let kilometers = maxDistance * 1000;
+        return new Promise((resolve, reject) => {
+            try {
+                mongo.connect((db) => {
+                    db.collection("Routes").find(
+                        {
+                            loc: {
+                                $near: {
+                                    $geometry: {
+                                        type: "Point",
+                                        coordinates: [long, lat]
+                                    },
+                                    $maxDistance: kilometers
+                                }
+                            }
+                        }
+                    ).project(
+                        {
+                            _id: 0,
+                            loc: 0
+                        }
+                    ).toArray(
+                        (err, res) => {
+                            if(err) {
+                                reject(err)
+                            }
+                            logger.info("Query successful")
+                            resolve(res)
+                        }
+                    )
+                })
+            }
+            catch(err) {
+                logger.warn("Error thrown in searchDocumentsByLocation: " + err)
+                reject(err)
+            }
+        })
     }
 
     /**
@@ -107,8 +146,8 @@
         searchTerms: function(terms) {
             return searchDocumentsByTerm(terms)
         },
-        searchLocation: function(location) {
-            return searchDocumentsByLocation(location)
+        searchLocation: function(long, lat, maxDistance) {
+            return searchDocumentsByLocation(long, lat, maxDistance)
         },
         getDocument: function() {
             return getDocument() 

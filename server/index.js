@@ -39,11 +39,16 @@ app.get('/search/term', function(req, res) {
 })
 
 app.get('/search/location', function(req, res) {
-    //call query generator bypassing search terms and filters
-
-    //pass query object and options to repository
-
-    //return results to user
+    let lat = parseFloat(req.query.lat)
+    let long = parseFloat(req.query.long)
+    let distance = req.query.maxDistance
+    logger.info(`Search made with locations: latitude: ${lat} longitude: ${long}`)
+    repo.searchLocation(long, lat, distance).then((results) => {
+        res.jsonp(results)
+    }).catch((rejection) =>{ 
+        logger.warn(rejection)
+        res.status(500).send("Error: Something went wrong!")
+    })
 })
 
 app.get('/document/:id', function(req, res) {
