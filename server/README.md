@@ -7,3 +7,4 @@ The following need to be set in a `.env` file before running the project:
 `DBPASS` Password for the username previously mentioned  
 `DBNAME` Name of the project database  
 `PORT`   Port you would like the application to listen on  
+`ENV`    Sets the environment for the connection string. Use `local` if running locally for devlopment  
