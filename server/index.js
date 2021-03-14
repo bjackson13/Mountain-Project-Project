@@ -14,6 +14,8 @@ const app = express()
 const port = process.env.PORT
 const Repository = require('./lib/repository.js')
 const repo = Repository()
+const multer = require('multer');
+const parser = multer();
 
 /*Initialize logger using log4js */
 log4js.configure({
@@ -26,6 +28,9 @@ log4js.configure({
 });
   
 const logger = log4js.getLogger('Controller')
+
+//setup form-data parser
+app.use(parser.array())
 
 app.get('/search/term', function(req, res) {
     let terms = req.query.searchTerms
@@ -85,9 +90,27 @@ app.get('/image', function(req, res) {
 })
 
 app.post('/comment/:id', function(req, res) {
-    
+    let id = req.params.id
+    let username = req.body.username
+    let text = req.body.text
+    logger.info(`Comment added: ${id} ${username} ${text}`)
+
+    repo.addComment(id, text, username).then((results) => {
+        if(results.result.nModified === 0) {
+            res.status(404).send("No route found")
+        }
+        else {
+            res.status(200).send("Comment added successfully")
+        }      
+    }).catch((rejection) =>{ 
+        logger.warn(rejection)
+        res.status(500).send("Error: Something went wrong!")
+    }) 
 })
 
+/**
+ * Start the app
+ */
 
 app.listen(port, () => {
     logger.info(`Application listening on localhost:${port}`)

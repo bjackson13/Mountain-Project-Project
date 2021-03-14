@@ -224,6 +224,7 @@
                                 reject(err)
                             }
                             logger.info("update successful")
+                            console.log(res.result)
                             resolve(res)
                         }
                     )
