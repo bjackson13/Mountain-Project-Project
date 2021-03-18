@@ -3,11 +3,19 @@ NodeJs server with express framework, handles requests for finding routes, acces
 
 ## Prereqs
 The following need to be set in a `.env` file before running the project:  
-`DBUSER` The username for access to the mongo database  
+`DBUSER` The username for access to the mongo database
 `DBPASS` Password for the username previously mentioned  
 `DBNAME` Name of the project database  
 `PORT`   Port you would like the application to listen on  
 `ENV`    Sets the environment for the connection string. Use `local` if running locally for devlopment  
+
+## Starting the Server
+To start the server run the following commands after you have setup the `.env` file:  
+1. Ensure you have a mongo database running either locally or on a server. If on a server, the `DBUSER` and `DBPASS` varaibles above need to be set.  
+2. Run `npm install` from the `server` directory  
+3. Run `node index.js` to start the server  
+
+The server should be up and running now the the port entered above.
 
 ## Endpoints
 
