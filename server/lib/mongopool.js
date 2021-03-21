@@ -12,7 +12,8 @@ const user = process.env.DBUSER
 const password = process.env.DBPASS
 const dbName = process.env.DBNAME
 const env = process.env.ENV
-const connectionString = env === 'local' ? `mongodb://localhost:27017` : `mongodb://${user}:${password}@localhost:27017`
+const domain = process.env.DOMAIN
+const connectionString = env === 'local' ? `mongodb://${domain}:27017` : `mongodb://${user}:${password}@${domain}:27017`
 
 //db conn options
 var options = {
