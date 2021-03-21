@@ -108,6 +108,16 @@ app.post('/comment/:id', function(req, res) {
     }) 
 })
 
+app.get('/search/random', function(req, res) {
+    logger.info('Getting random routes')
+    repo.getRandomRoutes().then((results) => {
+        res.jsonp(results)
+    }).catch((rejection) =>{ 
+        logger.warn(rejection)
+        res.status(500).send("Error: Something went wrong!")
+    })
+})
+
 /**
  * Start the app
  */

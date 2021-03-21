@@ -237,6 +237,42 @@
         })
     }
 
+    /**
+     * @function getPopularRoutes retrieve listing of random routes for front page
+     */
+    function getRandomRoutes() {
+        logger.info(`Getting random routes`)
+        return new Promise((resolve, reject) => {
+            try {
+                mongo.connect((db) => {
+                    db.collection("Routes").aggregate(
+                        [
+                            { $sample: 
+                                { size: 10 } 
+                            }
+                        ]
+                    ).project(
+                        {
+                            _id: 0
+                        }
+                    ).toArray(
+                        (err, res) => {
+                            if(err) {
+                                reject(err)
+                            }
+                            logger.info("Query successful")
+                            resolve(res)
+                        }
+                    )
+                })
+            }
+            catch(err) {
+                logger.warn("Error thrown in getRandomRoutes: " + err)
+                reject(err)
+            }
+        })
+    }
+
     return {
         searchTerms: function(terms) {
             return searchDocumentsByTerm(terms)
@@ -252,6 +288,9 @@
         },
         addComment: function(id, text, username) {
             return addComment(id, text, username)
+        },
+        getRandomRoutes: function() {
+            return getRandomRoutes()
         }
     }
  }

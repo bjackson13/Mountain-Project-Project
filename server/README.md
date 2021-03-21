@@ -27,7 +27,7 @@ METHOD: GET
 Query Parameters:  
 `searchTerms` = term to search for  
 
-EX: `/search/term?searchterms=rock`  
+EX: `/search/term?searchTerms=rock`  
 
 RETURNS:  
 JSON array of found documents  
@@ -48,6 +48,15 @@ EX: `/search/location?long=-77.6114&lat=43.1656&maxDistance=50`
 
 RETURNS:  
 JSON array of found documents  
+
+-------------------------------------------------  
+
+### /search/random  
+
+METHOD: GET  
+
+RETURNS:  
+JSON array of 10 random documents  
 
 -------------------------------------------------  
 
