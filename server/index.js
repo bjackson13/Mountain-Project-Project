@@ -32,6 +32,16 @@ const logger = log4js.getLogger('Controller')
 //setup form-data parser
 app.use(parser.array())
 
+//CORS resolution middleware
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST')
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization')
+    res.setHeader('Access-Control-Allow-Credentials', false)
+
+    next();
+});
+
 app.get('/search/term', function(req, res) {
     let terms = req.query.searchTerms
     logger.info(`Search made with terms: ${terms}`)
