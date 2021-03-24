@@ -1,14 +1,14 @@
 /**
- * Group 7 
+ * Group 7
  * Mountain-Project-Project
  * @author Brennan Jackson
  * Created March 7, 2021
- * 
+ *
  * index.js
  *  Project index file. Serves as the controller for our endpoints
  */
 require('dotenv').config() //read in .env file
-const log4js = require('log4js') 
+const log4js = require('log4js')
 const express = require('express')
 const app = express()
 const port = process.env.PORT
@@ -26,7 +26,7 @@ log4js.configure({
       default: { appenders: [ 'multi' ], level: 'debug' }
     }
 });
-  
+
 const logger = log4js.getLogger('Controller')
 
 //setup form-data parser
@@ -46,8 +46,10 @@ app.get('/search/term', function(req, res) {
     let terms = req.query.searchTerms
     logger.info(`Search made with terms: ${terms}`)
     repo.searchTerms(terms).then((results) => {
+        console.log('results');
+        console.log(results);
         res.jsonp(results)
-    }).catch((rejection) =>{ 
+    }).catch((rejection) =>{
         logger.warn(rejection)
         res.status(500).send("Error: Something went wrong!")
     })
@@ -60,7 +62,7 @@ app.get('/search/location', function(req, res) {
     logger.info(`Search made with locations: latitude: ${lat} longitude: ${long}`)
     repo.searchLocation(long, lat, distance).then((results) => {
         res.jsonp(results)
-    }).catch((rejection) =>{ 
+    }).catch((rejection) =>{
         logger.warn(rejection)
         res.status(500).send("Error: Something went wrong!")
     })
@@ -75,7 +77,7 @@ app.get('/document/:id', function(req, res) {
         else {
             res.jsonp(results)
         }
-    }).catch((rejection) =>{ 
+    }).catch((rejection) =>{
         logger.warn(rejection)
         res.status(500).send("Error: Something went wrong!")
     })
@@ -92,17 +94,18 @@ app.get('/image', function(req, res) {
             gridStream = results[0]
             res.set('Content-Type', results[1].contentType);
             return gridStream.pipe(res);
-        }        
-    }).catch((rejection) =>{ 
+        }
+    }).catch((rejection) =>{
         logger.warn(rejection)
         res.status(500).send("Error: Something went wrong!")
-    }) 
+    })
 })
 
-app.post('/comment/:id', function(req, res) {
-    let id = req.params.id
-    let username = req.body.username
-    let text = req.body.text
+app.get('/comment', function(req, res) {
+    let id = req.query.id
+    let username = req.query.username
+    let text = req.query.text
+
     logger.info(`Comment added: ${id} ${username} ${text}`)
 
     repo.addComment(id, text, username).then((results) => {
@@ -111,18 +114,18 @@ app.post('/comment/:id', function(req, res) {
         }
         else {
             res.status(200).send("Comment added successfully")
-        }      
-    }).catch((rejection) =>{ 
+        }
+    }).catch((rejection) =>{
         logger.warn(rejection)
         res.status(500).send("Error: Something went wrong!")
-    }) 
+    })
 })
 
 app.get('/search/random', function(req, res) {
     logger.info('Getting random routes')
     repo.getRandomRoutes().then((results) => {
         res.jsonp(results)
-    }).catch((rejection) =>{ 
+    }).catch((rejection) =>{
         logger.warn(rejection)
         res.status(500).send("Error: Something went wrong!")
     })
