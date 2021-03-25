@@ -3,12 +3,15 @@ NodeJs server with express framework, handles requests for finding routes, acces
 
 ## Prereqs
 The following need to be set in a `.env` file before running the project:  
-`DBUSER` The username for access to the mongo database
+`DBUSER` The username for access to the mongo database  
 `DBPASS` Password for the username previously mentioned  
 `DBNAME` Name of the project database  
 `PORT`   Port you would like the application to listen on  
 `ENV`    Sets the environment for the connection string. Use `local` if running locally for devlopment  
 `DOMAIN` Sets the domain of the database in the connection string 
+
+### Create `loc` field index
+Open your mongo shell, use the Project database and run `db.Routes.createIndex({loc: "2dsphere"})`  
 
 ## Starting the Server
 To start the server run the following commands after you have setup the `.env` file:  

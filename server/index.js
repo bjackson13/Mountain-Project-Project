@@ -46,8 +46,6 @@ app.get('/search/term', function(req, res) {
     let terms = req.query.searchTerms
     logger.info(`Search made with terms: ${terms}`)
     repo.searchTerms(terms).then((results) => {
-        console.log('results');
-        console.log(results);
         res.jsonp(results)
     }).catch((rejection) =>{
         logger.warn(rejection)
